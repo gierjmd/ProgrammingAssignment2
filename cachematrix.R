@@ -9,28 +9,29 @@ makeCacheMatrix <- function(A = matrix()) {
     # initialize inverse Ainv as NULL
     Ainv <- NULL
     
-    # define nested set function:
-    # the matrix A is set to the eceived matrix newA, the inverse Ainv (back)
-    # to NULL - the assignment of A and Ainv is in the enclosing environment
+    # nested set function:
+    # the provided matrix newA is assigned to the matrix A, while the inverse
+    # Ainv is set (back) to NULL - the assignments of A and Ainv is in the
+    # enclosing environment
     set <- function(newA) {
         A <<- newA
         Ainv <<- NULL
     }
     
-    # define nested get function:
+    # nested get function:
     # returns the matrix A
     get <- function() A
     
-    # define nested setinv function:
-    # Ainv is set to received matrix newAinv
+    # nested setinv function:
+    # the provided matrix newAinv is assigned to the matrix inverse Ainv
     setinv <- function(newAinv) Ainv <<- newAinv
 
-    # define nested getinv function:
-    # returns the inverse Ainv
+    # nested getinv function:
+    # returns the inverse matrix Ainv
     getinv <- function() Ainv
     
-    # the returned "matrix" object is a list of the defined get/set and
-    # getinv/setinv functions
+    # the returned "matrix" object is a list of the get/set and getinv/setinv
+    # functions, as defined in the above
     list(set = set, get = get,
          setinv = setinv,
          getinv = getinv)
@@ -44,10 +45,10 @@ makeCacheMatrix <- function(A = matrix()) {
 ## returned.
 cacheSolve <- function(A, ...) {
     
-    # get the cached inverse Ainv, using getinv
+    # get the cached inverse Ainv, using the getinv function
     Ainv <- A$getinv()
     
-    # if this inverse is not NULL, return with the cached inverse as output
+    # if this inverse is not NULL, return, with the cached inverse as output
     if(!is.null(Ainv)) {
         message("Returning cached inverse.")
         return(Ainv)
@@ -57,7 +58,7 @@ cacheSolve <- function(A, ...) {
     matrix <- A$get()
     Ainv <- solve(matrix, ...)
     
-    # set the cached inverse Ainv, using setinv ..
+    # set the cached inverse Ainv, using the setinv function ..
     A$setinv(Ainv)
     # .. and return the inverse Ainv
     Ainv
